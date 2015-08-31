@@ -10,5 +10,8 @@ The plugin's folder should be named "onedashboard"
 
 Changelog
 =================
+###0.1.1###
+- Don't interfere with console commands
+
 ###0.1###
 - Initial push to GitHub
