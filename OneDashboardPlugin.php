@@ -60,36 +60,40 @@ class OneDashboardPlugin extends BasePlugin
      */
     public function init()
     {
-        // Get current user
-        $currentUser = craft()->userSession->getUser();
+        // Don't run when in console
+        if (!craft()->isConsole()) {
 
-        // Make sure we're logged in onto CP
-        if ($currentUser && $currentUser->can('accessCp') && craft()->request->isCpRequest()) {
+            // Get current user
+            $currentUser = craft()->userSession->getUser();
 
-            // Check if this user already has widgets
-            $userWidgetRecords = WidgetRecord::model()->ordered()->findAllByAttributes(array(
-                'userId' => $currentUser->id,
-            ));
+            // Make sure we're logged in onto CP
+            if ($currentUser && $currentUser->can('accessCp') && craft()->request->isCpRequest()) {
 
-            if (!$userWidgetRecords) {
-
-                // Get enabled admin widgets
-                $adminWidgetRecords = WidgetRecord::model()->ordered()->findAllByAttributes(array(
-                    'userId' => 1,
-                    'enabled' => 1,
+                // Check if this user already has widgets
+                $userWidgetRecords = WidgetRecord::model()->ordered()->findAllByAttributes(array(
+                    'userId' => $currentUser->id,
                 ));
 
-                // Populate widget models
-                $adminWidgets = WidgetModel::populateModels($adminWidgetRecords);
+                if (!$userWidgetRecords) {
 
-                // Loop through widget models
-                foreach ($adminWidgets as $widget) {
+                    // Get enabled admin widgets
+                    $adminWidgetRecords = WidgetRecord::model()->ordered()->findAllByAttributes(array(
+                        'userId' => 1,
+                        'enabled' => 1,
+                    ));
 
-                    // Clear widget id
-                    $widget->id = null;
+                    // Populate widget models
+                    $adminWidgets = WidgetModel::populateModels($adminWidgetRecords);
 
-                    // Save on user
-                    craft()->dashboard->saveUserWidget($widget);
+                    // Loop through widget models
+                    foreach ($adminWidgets as $widget) {
+
+                        // Clear widget id
+                        $widget->id = null;
+
+                        // Save on user
+                        craft()->dashboard->saveUserWidget($widget);
+                    }
                 }
             }
         }
