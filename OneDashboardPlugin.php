@@ -92,7 +92,14 @@ class OneDashboardPlugin extends BasePlugin
                         $widget->id = null;
 
                         // Save on user
-                        craft()->dashboard->saveUserWidget($widget);
+                        $result = craft()->dashboard->saveUserWidget($widget);
+
+                        // If that worked then we should have an id on the model
+                        // and can go ahead and update the colspan
+                        if ($result && $widget->id) {
+                          craft()->dashboard->changeWidgetColspan($widget->id, $widget->colspan);
+                        }
+
                     }
                 }
             }
