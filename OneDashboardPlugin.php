@@ -32,7 +32,7 @@ class OneDashboardPlugin extends BasePlugin
      */
     public function getVersion()
     {
-        return '0.1.1';
+        return '0.1.2';
     }
 
     /**
@@ -97,9 +97,8 @@ class OneDashboardPlugin extends BasePlugin
                         // If that worked then we should have an id on the model
                         // and can go ahead and update the colspan
                         if ($result && $widget->id) {
-                          craft()->dashboard->changeWidgetColspan($widget->id, $widget->colspan);
+                            craft()->dashboard->changeWidgetColspan($widget->id, $widget->colspan);
                         }
-
                     }
                 }
             }

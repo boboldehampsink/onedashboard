@@ -10,6 +10,9 @@ The plugin's folder should be named "onedashboard"
 
 Changelog
 =================
+###0.1.2###
+ - Now also saves the widget colspans
+
 ###0.1.1###
 - Don't interfere with console commands
 
